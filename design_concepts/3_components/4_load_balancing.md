@@ -1,0 +1,81 @@
+## Load Balancing
+- Distributes traffic across a cluster of servers
+  - Prevents overloading any one server
+  - Improves availability and reliability
+  - Minimizes response time and maximizes throughput
+  - Provides horizontal scaling
+- Keeps track and perform health checks regularly
+  - Stops sending signal to erred server and reduces downtime
+- Sits between client and server
+  - And distributes the incoming traffic across multiple servers
+  - Prevents any one server from becoming single point of failure
+  - Cluster of LB to avoid the LB being the single point of failure
+- Can be added between
+  - Users and Servers
+  - Servers and Internal platform (application server, cache server, job server)
+  - Internal platform and Database
+
+## Types of Load Balancers
+- Application LB
+  - Designed to work with specific types of applications or protocols like HTTP or HTTPS
+  - Provides flexibility because it can be installed on any standard device
+  - Less expensive since no need to purchase or maintain the physical device
+- Global LB
+  - Distributes traffic depending on the geographic regions
+  - Across multiple data centers or geographically distributed servers
+  - Considers factors like server proximity, server health
+- Virtual LB
+  - Implemented as a virtual machine or software instance within a virtualized environment
+  - Such as data centers utilizing virtualization technologies like VMware, HyperV
+- Hardware Load Balancers
+  - Forwards a request to the appropriate server doing bi-directional network address translation (NAT)
+  - Can handle a large traffic but are expensive & has limited flexibility
+  - Due to this, mostly used as the first entry point for user requests
+  - Capable of handling all kinds of HTTP(S), TCP, UDP traffic
+  - Preferred by large enterprises for dedicated power
+- Hardware LB: Layer 4 (Network Layer)
+  - Distributes requests based on the source & destination IP addresses & port numbers
+  - Can perform basic NAT to hide server addresses
+- Hardware LB: Layer 7 (Application Layer)
+  - Distributes requests based on the content of the requests
+  - Such as URL, type of HTTP method, HTTP headers, cookies
+  - Capable for terminating SSL connections
+
+## Load Balancing Algorithms
+### Static Load Balancing
+- Predetermined assignment of tasks or resources without considering real-time variations
+- Round Robin
+  - Distribute requests equally one by one to servers
+    - Simple to implement, no overhead
+  - Suitable when servers have similar processing capabilities
+  - If a server is dead, it will be taken out of rotation
+  - It is a static LB, so there is no consideration of server load
+    - A solution can be to periodically query load and adjust traffic
+- Weighted Round Robin
+  - Better suited to handle servers with different processing capacities
+  - Different servers are assigned weights and traffic is distributed accordingly
+  - The weights are based on processing capacity, server health, load, etc.
+- Source IP hash
+  - Distributes requests based on the hash value of the source IP address
+  - Ensures that requests originating from the same IP
+    - Are consistently directed to the same server
+    - Beneficial for applications that require maintaining session info or state
+  - May lead to uneven load distribution if certain IPs are more active
+    - Or if the IPs are not distributed evenly
+  - Adding or removing servers may disrupt session persistence
+
+### Dynamic Load Balancing
+- Real-time decisions based on the changing conditions in the system
+- Least Connection
+  - Directs traffic to the server with the fewest active connections
+  - Need additional computation to identify the server with least connections
+  - May be costlier than round robin method
+  - Ignores capacity, server with fewer connections may still have less capacity
+- Least Response Time
+  - Directs traffic to the server with the fewest active connectins
+    - And the lowest average response time
+  - Considers historical performance of server response times
+  - Adjusts any server changes by continuous monitoring
+- Least Bandwidth
+  - Selects the server that is serving the least amount of traffic
+    - Measured in Mbps (megabits per second)

@@ -1,0 +1,16 @@
+## Requirements
+- Functional Requirements
+  - Requirements specified by the end user as part of the contract
+  - Features that need to be included and what will be their inputs & outputs
+- Non-functional Requirements
+  - Quality constraints that the system must satisfy
+  - Portability
+  - Security
+  - Maintainability
+  - Reliability
+  - Scalability
+  - Performance
+  - Reusability
+  - Flexibility
+- Extended Requirements
+  - Nice to have requirements that are not the core functionalities
