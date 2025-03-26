@@ -14,7 +14,7 @@
     - Receives requests from the client, acts on them and stores the data
   - Data Tier / Persistence Layer
     - Databases, message queues
-    - Handles communication with othere applications
+    - Handles communication with other applications
 
 ## Microservices
 - Small services that handle a specific part of the functionality and data
@@ -52,14 +52,14 @@
   - Decentralized communication reducing the need for point to point connections
   - Improved fault tolerance and scalability
 - Challenges
-  - Can become complex as the number of evens and components grow
+  - Can become complex as the number of events and components grow
   - Maintaining the order of events and ensuring consistency
   - Overhead of event bus
   - Debugging and tracing events can be challenging
 
-## Events
-- Triggered by occurances like user actions, changes in data, external stimuli, system processes
-- Represented as messages or signals that convey information about an occurance
+### Events
+- Triggered by occurrences like user actions, changes in data, external stimuli, system processes
+- Represented as messages or signals that convey information about an occurrence
 - Asynchronous communication allowing for parallel processing
 - Typically handled using pub-sub model
 - Includes event type and payload to provide context and details about an event

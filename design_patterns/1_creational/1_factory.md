@@ -1,58 +1,74 @@
 ## Factory
-- Provides an interface for creating objects
-- Allows subclasses to alter the type of objects that will be created
-- Avoids tight coupling between the creators and the products
+- Also known as Virtual Constructor
+- Provides an interface for creating objects in a superclass
+  - But allows subclasses to alter the type of objects that will be created
+- Allows creating product objects without specifying their concrete classes
+  - Avoids tight coupling between the creators and the products
 
 ## Problem
 - Let's say we're creating a logistics management application
-- Currently the transportation is handled by trucks, so the code uses Truck class everywhere
-- If we start sea transportation later, adding Ship class would require a lot of changes
-- The same thing will happen if we add more modes of transport
+  - The app handles transportation by trucks
+  - So the bulk of the code is in the Truck class
+- After a while, we receive requests to incorporate sea logistics into the app
+  - Adding a new Ship would require a lot of changes
+  - Since the the code is coupled to the Truck class
+- Adding yet another type of transportation will require making these changes again
+  - This will introduce many conditionals to switch the app's behavior
+    - Depending on the class of the transportation objects
 
 ## Solution
-- Replace direct object contruction calls with calls to a special factory method
-- Objects returned by a factory method are referred as products
-- This factory method can be overriden in a subclass to change the class of products
-- The code that uses the factory method doesn't see a differencee between the products returned by various subclasses
-- Both Truck and Ship classes should implement Vehicle interface
+- Replace the direct object construction calls with calls to a special factory method
+  - Objects returned by a factory method are often referred as products
+- This allows us to override the factory method in a subclass
+  - And change the class of products being created by the method
+  - But these products from all the subclasses should have a common base class or interface
+- The Truck class and the Ship class implement the Transport interface
+  - The Transport interface declares a method called deliver
+  - Truck implements it to deliver by land, Ship implements it to deliver by sea
+- The code that uses the factory method
+  - Doesn’t see a difference between the products returned by various subclasses
+  - It knows that all transport objects are supposed to have the deliver method
+    - But exactly how it works isn’t important to it
 
 ## Example
 ```rb
 # Creator
-# Declares the factory method that returns new product objects
-# It can return a default product type of leave it to the subclasses
-# Product creation is not the primary responsibility of the creator
-# It already has some core business logic related to the products
-class Vehicle
-  def pick_parcel
-    raise('Not Implemented')
+# Declares the factory method that returns an object of a product class. The subclasses
+# provide the implementation, but it may provide a default implementation.
+# Its primary responsibility isn't creating products, it usually contains some core
+# business logic that relies on product objects returned by the factory method.
+# Subclasses can indirectly change that business logic by overriding the factory method
+# and returning a different type of product.
+class Transport
+  def deliver
+    raise('Not Implemented Error')
   end
 end
 
 # Concrete Creator
-# Implementation of the creator interface
-class Truck < Vehicle
-  def pick_parcel(parcel_details)
-    parcel = Box.new(parcel_details)
+# Implements the creator interface
+class Truck < Transport
+  def deliver(parcel_details)
+    Box.new(parcel_details)
   end
 end
 
-class Ship < Vehicle
-  def pick_parcel(parcel_details)
-    parcel = Container.new(parcel_details)
+class Ship < Transport
+  def deliver(parcel_details)
+    Container.new(parcel_details)
   end
 end
 
 # Product
-# Declares the interface common to all objects that are produced by the creators
+# Declares the interface common for all objects that are produced by the creators
 class Parcel
   def pick
-    raise('Not Implemented')
+    raise('Not Implemented Error')
   end
 end
 
 # Concrete Product
-# Implementations of the product interface
+# Implements the product interface
 class Box < Parcel
   def pick
   end
@@ -63,10 +79,13 @@ class Container < Parcel
   end
 end
 
-# Client
-def pick_parcel
-  vehicle = Truck.new
-  parcel_details = { height: '1m', width: '1m', weight: '10kg' }
-  vehicle.pick_parcel(parcel_details)
+# Client Code
+def pick_parcel(transporter, parcel_details)
+  parcel = transporter.deliver(parcel_details)
+  parcel.pick
 end
+
+parcel_details = { height: '1m', width: '1m', weight: '10kg' }
+transporter = Truck.new
+pick_parcel(transporter, parcel_details)
 ```

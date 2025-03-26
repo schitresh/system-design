@@ -1,14 +1,20 @@
 ## Builder
-- Constructs complex objects that requires step by step initialization of many fields and nested objects
-- Allows to produce different types and representations of an object using the same construction code
+- Constructs complex objects
+  - That require step by step initialization of many fields and nested objects
+- Allows to produce different types and representations of an object
+  - Using the same construction code
 
 ## Problem
+- Imagine a complex object
+  - That requires step-by-step initialization of many fields and nested objects
+  - Such initialization is usually inside a large constructor with lots of parameters
+  - It can become too complex by creating subclasses for every possible configuration
 - Let's say we want to create a House object
   - To build a simple house, we need to construct walls, floor, door, windows, roof
-  - After that we will also need to add plumbling, electrical wiring
+  - After that we will also need to add plumbling, electrical wiring, etc.
   - The client may also want backyard, heating system, air conditioning
 - The simplest solution is to extend the base House class and create subclasses
-  - But eventually we'll end up with a lot of subclasses to cover all combinations of parameters
+  - But eventually we'll end up with a lot of subclasses to cover all the combinations
   - Any new parameters like porch style will keep growing this heirarchy
 - Another solution can be to create a large constructor in the base House class
   - But in most cases, many of the parameters will be unused
@@ -16,17 +22,23 @@
   - This will make the constructor calls ugly
 
 ## Solution
-- Organize object construction into a set of steps that can be executed on a builder object
-- Create several different builder classes that implement the same set of building steps, but in a different manner
-- Call only those steps that are necessary for a particular configuration
+- Extract the object construction out of its own class
+  - And move it to separate objects called builders
+- Organize object construction into a set of steps
+  - That can be executed on a builder object
 - Some steps might require different implementation to build various representations
-- For example, walls of a cabin may be built of wood, but castle walls must be built with stone
-- These builders can be used to produce different kinds of objects
+  - Walls of a cabin must be built of wood
+  - Walls of a castle walls must be built with stone
+- Create several different builder classes
+  - That implement the same set of building steps but in a different manner
+  - Call only those steps that are necessary for a particular configuration
 
 ### Director
 - We can go further and extract a series of calls to a director class
 - Director class defines the order to execute the building steps
-- And the builder provides the implementation for those steps
+  - While the builder provides the implementation for those steps
+- It extracts the details of product construction from the client code
+  - The client only needs to associate a builder with a director
 
 ## Example
 ```rb
@@ -73,13 +85,15 @@ def Director
   end
 
   def build_room
+    builder.build_walls
+    builder.build_floor
   end
 
   def build_swimming_pool
   end
 end
 
-# Client
+# Client Code
 def build
   builder = CabinBuilder.new
   director = Director.new(builder)
