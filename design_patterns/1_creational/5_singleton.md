@@ -76,12 +76,17 @@ def scheduler_mode(mode)
 end
 
 def process_threads
-  Thread.new do
+  thread1 = Thread.new do
     scheduler_mode('a') # returns 'a'
   end
 
-  Thread.new do
+  thread2 = Thread.new do
     scheduler_mode('b') # returns 'a'
   end
+
+  # Join the new threads to the main thread
+  # So that the main thread waits for thread1 & thread2 to finish
+  thread1.join
+  thread2.join
 end
 ```
