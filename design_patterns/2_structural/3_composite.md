@@ -1,34 +1,41 @@
 ## Composite
-- Composes objects into tree structures and works with them as if they were individual objects
+- Also known as Object Tree
+- Composes objects into tree structures
+  - And works with these structures as if they were individual objects
 - Used only when the core model of an app can be represented as a tree
 
 ## Problem
 - Let's say we want to create an ordering system that uses Products & Boxes
-- A box can contain several products as well as smaller boxes
-- The smaller boxes can also hold some products or even smaller boxes and so on
-- How the total price of an order will be determined
-- The direct approach will be to unwrap all the boxes and go over all the products
-- But the nesting level and other nasty details can make it complicated
+  - A box can contain several products as well as other smaller boxes
+  - The smaller boxes can also hold some products or even smaller boxes and so on
+- To determine the total price of an order
+  - The direct approach will be to unwrap all the boxes and go over all the products
+  - But the nesting level and other nasty details can make it complicated
 
 ## Solution
 - Create a common interface that can calculate the total price
-- For a box, it will go over each item and ask its price
+  - For a product, it will simply consider the product's price
+  - For a box, it will go over each item and ask its price
 - The smaller boxes can individually go over their contents and get the price
-- This way we don't need to worry about how the boxes calculate their price
-- If a box is simple or sophisticated or gift wrapped, it can handle these criterias on its own
+  - This way we don't need to worry about how the boxes calculate their price
+  - And a box can also add some extra cost like packaging cost
+- We don’t need to care about the concrete classes of objects
+  - The objects themselves pass the request down the tree
+  - If a box is simple or sophisticated or gift wrapped
+    - It can handle these criterias on its own
 
 ## Example
 ```rb
-# Component
+# Component (Common Interface)
 # Declares common operations for both simple and complex objects of a composition
-class Object
+class Component
   attr_accessor :parent
 
-  def add(object)
+  def add(component)
     raise('Not Implemented')
   end
 
-  def remove(object)
+  def remove(component)
     raise('Not Implemented')
   end
 
@@ -41,22 +48,29 @@ class Object
   end
 end
 
+# Leaf
+# End objects of a composition, can't have any children.
+# Usually, it's the leaf objects that do the actual work, whereas Composite
+# objects only delegate to their sub-components.
+class Product < Component
+end
+
 # Composite
 # Complex components that may have children
 # Usually delegates the actual work to the children and sum up the results
-class Box < Object
+class Box < Component
   def initialize
     @children = []
   end
 
-  def add(object)
-    @children.append(object)
-    object.parent = self
+  def add(component)
+    @children.append(component)
+    component.parent = self
   end
 
-  def remove(object)
-    @children.remove(object)
-    object.parent = nil
+  def remove(component)
+    @children.remove(component)
+    component.parent = nil
   end
 
   def composite?
@@ -67,12 +81,7 @@ class Box < Object
   end
 end
 
-# Leaf
-# End objects of a composition, can't have any children
-class Product < Object
-end
-
-# Client
+# Client Code
 def get_price
   product1 = Product.new
   box1 = Box.new

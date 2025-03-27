@@ -1,4 +1,5 @@
 ## Prototype
+- Also known as Clone
 - Helps to copy existing objects without making the code dependent on their classes
 - It's easier to copy complex object rather than constructing them from scratch
 

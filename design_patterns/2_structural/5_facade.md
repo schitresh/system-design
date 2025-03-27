@@ -1,18 +1,27 @@
 ## Facade
-- Provides a simplified interface to a library, framework, or complex set of classes that contains a lot of moving parts
-- Provides limited functionality and includes only those features that the client cares about
+- Provides a simplified interface to a library, framework, or complex set of classes
+  - That contains a lot of moving parts
+- Provides limited functionality
+  - Includes only those features that the client cares about
 
 ## Problem
-- Let's say our code works with a broad set of objects that belong to a sophisticated library or framework
-- We'd need to initialize all these objects, keep track of dependencies, execute methods iin the correct order
-- This can result in tight coupling of the business logic of our classes and the implementation details of the library
-- That will also make it hard to comprehend and maitain the code
+- Let's say our code works with a broad set of objects
+  - That belong to a sophisticated library or framework
+  - We would need to initialize all these objects
+    - Keep track of dependencies
+    - Execute methods in the correct order
+- This can result in tight coupling of
+  - The business logic of the classes and the implementation details of libraries
+  - Making it hard to comprehend and maitain the code
 
 ## Solution
-- Create a class that implements the workflow for the library and doesn't affect the business logic of the client
+- Create a class that provides a simple interface to a complex subsystem
+  - Implements a specifc workflow of a large library
+  - Doesn't affect the business logic of the client
 
 ## Example
 ```rb
+# Third Party Library
 module MultiMediaLibrary
   class Video
     def initialize(file)
@@ -41,7 +50,7 @@ class VideoCompressor
   end
 end
 
-# Client
+# Client Code
 def compress_video(file)
   VideoCompressor.new(file).compress
 end
