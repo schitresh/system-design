@@ -1,15 +1,30 @@
 ## Iterator
-- Traverse elements of a collection without exposing its underlying representation (list, stack, tree, etc.)
+- Traverses elements of a collection without exposing its underlying representation (list, stack, tree, etc.)
 
 ## Problem
-- How to go through each element of a collection without accessing the same elements over and over
-- Especially for complex data structures like trees
-- There can be some algorithms custom tailored for a specific application
+- How to go sequentially traverse each element of a collection
+  - Without accessing the same elements over and over
+  - Especially for complex data structures like trees, graphs
+- Also we might need different types of traversals
+  - Like DFS, BFS, random access for tree elements
+  - Adding more and more traversal algorithms to the collection gradually blurs
+    - Its primary responsibility which is efficient data storage
+  - Some algorithms might be tailored for a specific application
+    - Including them into a generic collection class may not be a good idea
+- The client code may not care how a collection stores elements
+  - But since collections provide different ways of accessing their elements
+  - We have no option other than to couple the code to the specific collection
 
 ## Solution
-- Encapsulate all the traversal details in an iterator object like current position, elements left till the end
+- Extract the traversal behavior of a collection into a separate object called iterator
+  - It implements the traversal algorithm
+  - Also encapsulates all of the traversal details such as
+    - The current position, how many elements are left till the end
+  - This allows several iterators to through the same collection at the same time independently
 - All iterators must implement the same interface
-  - To make the code compatible with any collection type or any traversal algorithm
+  - This makes the client code compatible with any collection type or any traversal algorithm
+  - If we need a special way to traverse a collection, just create a new iterator class
+    - Without having to change the collection or the client
 
 ## Example
 ```rb
@@ -69,7 +84,7 @@ class Portfolio
   end
 end
 
-# Client
+# Client Code
 def check_portfolio
   portfolio = Portfolio.new
   portfolio.add_account(Account.new('Bonds', 200))

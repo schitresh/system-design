@@ -1,17 +1,19 @@
 ## Chain of Responsibility
+- Also known as Chain of Command
 - Passes requests along a chain of handlers
-- Upon receiving a request, each handler decides to either process the request or pass it to next handler
+- Upon receiving a request, each handler decides to either process the request
+  - Or pass it to next handler in the chain
 
 ## Problem
 - Let's say we're working on an online ordering system
   - We want to restrict access to the system so that only authenticated users can create orders
   - User with administrative permissions must have full access to all orders
-- Based on some suggestions, we also add these checks
+- After some planning, we realized that these checks must be performed sequentially
   - Sanitize the data in a request because it's unsafe to pass raw data straight to the ordering system
   - Filter repeated failed request from the same IP to restrict brute force password cracking
   - Speed up the system by returning cached results on repeated requests with the same data
-- This leads to a complex the checking system and changing one check affects the others
-- Also, you had to duplicate some code since those components required some of these checks but not all
+- This leads to a complex checking system and changing one check affects the others
+- Also, it can lead to duplicate code if a component require some of these checks but not all
 
 ## Solution
 - Transform particular behaviors into stand-alone objects called handlers
@@ -19,7 +21,6 @@
 - Each linked handler has a field for storing a reference to the next handler in the chain
 - The request travels along the chain until all handlers process it
 - A handler can decide not to pass the request further down and effectively stop further processing
-- Or a handler can decide to process the request itself without passing down
 
 ## Example
 ```rb
@@ -48,6 +49,7 @@ class OrderPolicy < Policy
   end
 end
 
+# Concrete Handler
 class WeightPolicy < OrderPolicy
   def validate(order)
     if order.weight <= order.type.weight_limit
@@ -70,7 +72,7 @@ class PaymentPolicy < OrderPolicy
   end
 end
 
-# Client
+# Client Code
 def validate_orders(policy)
   weight_policy = WeightPolicy.new
   payment_policy = PaymentPolicy.new
