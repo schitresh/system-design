@@ -8,14 +8,14 @@
 
 ## CI/CD
 - Practices about how an integrated code on a shared repository is used to release software to production
-- Deployment can be done multiple times a day with the help of automation
-- Error detection and response are fast due to short cycle and iterations
-- Continuous Integration
+  - Deployment can be done multiple times a day with the help of automation
+  - Error detection and response are fast due to short cycle and iterations
+- Continuous Integration (CI)
   - Regularly build, test, and merge changes to a shared staging repository
   - Using version control to manage conflicts from too many branches at once
-- Continuous Delivery
-  - Automatically bug testing changes and uploading to staging repository
-- Continuous Deployment
+- Continuous Deployment (CD)
+  - Continuous Delivery
+    - Automatically testing changes for bugs and uploading to staging repository
   - Automatically releasing changes from staging repository to production
   - Automatically deploying application after testing and build stages
 

@@ -7,7 +7,7 @@
   - Ensuring that devices can understand & interpret each other's messages
 
 ### Importance
-- Inteoperability
+- Interoperability
   - They permit devices from different manufacturers
     - And with various functionalities to communicate seamlessly
 - Optimizes data transmission minimizing latency and packet loss
@@ -27,17 +27,18 @@
 - Core protocol that operates at the transport layer of the OSI model
 - Ensures that data packets are delivered reliably and in order from the sender
 - Establishes a connection earlier than data transfer
-  - Ensures the receipt of packets and retransmit if there is any loss or corrupted data
+  - Ensures the receipt of packets and retransmits if there is any loss or corrupted data
 - Used where data integrity and sequencing are critical
   - Web browsing, data transfers, e-mail delivery
 
 ## User Datagram Protocol (UDP)
-- Simple connectionless protocol that offerens minimal services than TCP
+- Simple connectionless protocol that offers minimal services than TCP
 - Also referred as fire and forget protocol
 - Does not guarantee delivery or order of packets
 - Doesn't provide error checking or flow control mechanisms
 - Doesn't setup a connection before data transfer
-- Used in real-time applications where low latecy is important like VoIP, online gaming, video streaming
+- Used in real-time applications where low latecy is important
+  - Like VoIP, online gaming, video streaming
 
 ## Domain Name System (DNS)
 - Translates user-friendly domain names (www.example.com) to numerical IP addresses (192.0.2.1)
@@ -56,7 +57,7 @@
 - They encrypt information during transmission
 
 ## File Transfer Protocol (FTP)
-- Used to transfer documents betweek a client and a server on a computer network
+- Used to transfer documents between a client and a server on a computer network
 - Allows users to upload, download, manipulate files on remote servers
 - Also used for website maintenance and software distribution
 
@@ -66,4 +67,4 @@
   - Transfers outgoing mail from a user to a server
 - POP3: Post Office Protocol, IMAP: Internet Message Access Protocol
   - Used for receiving email messages
-  - Retrieve incoming maiil from a server to a user
+  - Retrieve incoming mail from a server to a user

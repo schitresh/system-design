@@ -1,6 +1,6 @@
 ## Authentication
 - Verifies the identity of users of entities trying to access a system, application or network
-- Grans access to only authorized users protecting sensitive information and resources
+- Grants access to only authorized users protecting sensitive information and resources
 
 ### Requirements
 - Storage: Figure out the storage of username and password with encyption

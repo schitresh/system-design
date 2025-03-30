@@ -22,29 +22,30 @@
 
 ## Messages
 - Structure
-  - Headers: Metadata about the message, unique identifier, timstamp, message type, routing info
+  - Headers: Metadata about the message, unique identifier, timestamp, message type, routing info
   - Body: Contains message payload
 - Serialization
   - Converting complex data structures or objects into a format
-    - That is easily transmitted, stored, reconstructed
+    - That can be easily transmitted, stored, reconstructed
   - JSON (JavaScript Object Notation)
   - XML (eXtensible Markup Language)
   - Protobuf (Protocol Buffers)
-  - Binary Serialization: used for performance critical applications due to their compactness and speed
+  - Binary Serialization
+    - Used for performance critical applications due to their compactness and speed
 - Routing
   - Topic-based: Sent to topics or channels which can be subscribed
   - Direct: Sent to specific queues or consumers based on addresses or routing keys
   - Content-based: Filters or rules are defined to route messages
 
 ## Types
-- Point to Point (P2P): Messages are deliverd to a specific recipient
+- Point to Point (P2P): Messages are delivered to a specific recipient
 - Publish Subsribe (Pub-Sub):
   - Messages are published to a topic and are delivered to all the subscribers of that topic
 - Hybrid: Combination of P2P & Pub-Sub
 - Dead Letter Queues
   - Temporarily stores & handle messages that cannot be processed successfully
     - Messages with errors in their content or format
-    - Messages that excedd time-to-live (TTL) or delivery attempts
+    - Messages that exceed time-to-live (TTL) or delivery attempts
     - Messages that cannot be delivered to any consumer
   - Investigates and reprocesses failed messages preventing them from blocking the system
 

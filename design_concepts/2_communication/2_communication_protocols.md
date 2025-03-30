@@ -30,7 +30,7 @@
   - Client sends request, server sends handshake, websocket connection is established
 - Stateful protocol
   - Persistent connection between client and server to send data any time
-  - The connection is not terminated until either the client of server disconnects
+  - The connection is not terminated until either the client or the server disconnects
 - Real-time communication without waiting for a response
   - Allows message passing back and forth while keeping connection open
   - Server sends content to client without being asked

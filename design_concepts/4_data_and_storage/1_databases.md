@@ -14,9 +14,12 @@
 ### Object Storage (or Blob Storage)
 - Files are divided into little parts and dispersed over hardware in a flat structure
 - Typically use a RESTful API for accessing and managing data
-- Highly scalable, provides built-in redundancy and fault tolerance, can handle large number of requests concurrently
+- Highly scalable
+  - Provides built-in redundancy and fault tolerance
+  - Can handle large number of requests concurrently
 - Each object can have an associated metedata for rich data management and search capabilities
-- Suitable for large amounts of unstructured data like media files (documents, images, videos, audios), backups, log files
+- Suitable for large amounts of unstructured data
+  - Like media files (documents, images, videos, audios), backups, log files
 - Can be used together with database systems to store and manage different types of data
 - Options
   - Amazon Simple Storage Service (S3)
@@ -27,7 +30,7 @@
 - Files stored under a hierarchical directory structure
 - Accessed using file level protocols like Network File System (NFS) or Server Message Block (SMB)
 - Can be implemented using Network Attached Storage (NAS) devices or distributed file systems
-- Supports metadata like permissions, timestampes, file attributes
+- Supports metadata like permissions, timestamps, file attributes
 - Suitable for file systems and file based applications
 - Options
   - Amazon Elastic File System (EFS)
@@ -82,7 +85,7 @@
   - Since an index can become large due to additional keys
   - While adding rows or making updates
     - We have to write the data as well as update the index
-  - Avoid unnecessary indexes and delete the ones no longer used
+  - Avoid unnecessary indexes and delete the ones no longer being used
 - Categories
   - Single-level: Direct mapping between the index and the actual data
   - Multi-level: Hierarchical layers with better performance, B & B+ trees
@@ -92,11 +95,13 @@
     - Optimizes retrieval operations, in particular for range queries
     - Insert & update can be slower
   - Non-clustered
+    - Has a unique value for each record
     - Separate order for the index and the records
     - Fast retrieval, insert & update faster than clustered
 - Data structures: B tree, B+ tree, Hashmaps, Bitmap
 
 ## Eventual Consistency
 - Consistency model where all data replicas are eventually converged to a consistent state
-- It allows the replicas to be inconsistent for a short period to enable high availability and partition tolerance
-- Asynchronous Updates
+- It allows the replicas to be inconsistent for a short period
+  - To enable high availability and partition tolerance
+- Asynchronous updates

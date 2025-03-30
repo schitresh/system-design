@@ -4,7 +4,7 @@
   - Easy to develop, deploy and test, ideal for small organizations
   - Easy to rollback changes and debug
 - Challenges
-  - Any changes requires complete redeployment
+  - Any kind of changes require complete redeployment
   - Less scalable since each element can have different scalability requirement
 - Sections
   - Client Tier / User Layer / Presentation Layer / Front-end Layer
@@ -65,5 +65,5 @@
 - Includes event type and payload to provide context and details about an event
 - Event broker or event bus handles distribution, filtering and routing of events
   - Aggregator may be used to combine related events into a single meaningful event
-  - Dispatcher may be used to route events to appropriate event handles and manage flow
+  - Dispatcher may be used to route events to appropriate event handlers and manage flow
   - Filters and rules engine to determine which subscribers should receive them

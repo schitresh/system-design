@@ -13,7 +13,7 @@
     - Any excess requests are held in a bucket until the next time period
 
 ## Monitoring System
-- Collects, analyzes and reports metrics and performane related data
+- Collects, analyzes and reports metrics and performance related data
 - Helps to monitor if the desired service levels are being met
 - Types
   - Network: routers, switches, servers
@@ -45,7 +45,7 @@
 - Approaches
   - Standalone
     - Simple to implement, allows flexibility, complex to manage, requires infrastructure
-  - Built-in task scheduler in container orchestration platforms or cloud-based serverless paltforms
+  - Built-in task scheduler in container orchestration platforms or cloud-based serverless platforms
     - Simple to implement and mangage, less flexible
   - Cloud based like AWS SNS (Simple Notification Service), Google Cloud Scheduler
     - Highly scalable and fault-tolerant
@@ -62,10 +62,10 @@
   - Rate limiting sets maximum number of requests per unit time from a client
   - Throttling delays requests beyond the defined rate limit
 - Authentication
-  - Authentication users using username & password, API keys, OAuth tokens, JWTs
+  - Authenticates users using username & password, API keys, OAuth tokens, JWTs
   - Verifies that the user or application has the necessary permissions
 - Serialization & De-serialization of data
-  - Transforms requests and responsed as they pass through to ensure compatibility between services
+  - Transforms requests and responses as they pass through to ensure compatibility between services
   - For example, converting JSON to XML and vice versa
   - Can aggregate data from multiple services into a single response
 - Filtering

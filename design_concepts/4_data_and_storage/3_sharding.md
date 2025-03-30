@@ -12,7 +12,7 @@
   - Load balancing
 - Challenges
   - Complicated task and can result in data loss if not implemented properly
-  - Sometimes shards become unbalanced (may be it outgrows or more frequently accessed)
+  - Sometimes shards become unbalanced (may be it outgrows or is more frequently accessed)
   - Joining data from multiple shards may be expensive
 
 ## Considerations
@@ -38,7 +38,7 @@
   - Some shards may contain highly accessed tables or columns leading to uneven workload
   - Examples
     - Keep users and profile on the same server and photos to different servers
-    - Split preference based columns from user to a different table
+    - Split preference based columns from user table to a different table
 - Directory Based
   - Maintains a lookup service
     - That stores the mapping for each entity to the database servers

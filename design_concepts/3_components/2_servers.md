@@ -11,12 +11,13 @@
 - If the data is present for the request in the static database within the web server
   - Then immediately the corresponding response is sent back
 - Else the web server sends a servlet request for processing to the application server
-  - The application server looks up the application datastore to run the servlet and fetch the required info
+  - The application server looks up the application datastore
+    - To run the servlet and fetch the required info
   - And sends back the servlet response to the web server
 
 ## Application Server
 - Provides environment and computational power to run specific applications
-- Required when intensee computation is required which web server cannot handle
+- Required when intense computation is required which web server cannot handle
 
 ## Proxy Server
 - Intermediary hardware or software sitting between a client and a server
@@ -26,30 +27,31 @@
   - And also between the client and remote servers
 - Acts as an intermediary
   - For requests from clients seeking resources from other servers
+- Two types: forward proxy, reverse proxy
 
 ### Features
 - Filtering
-  - Look addresses in its database of allowed or disallowed sites
-  - Filter out content or websites based on different policies
-  - Blocks malicious content and filter out dangerous websites
-  - Prevent unauthorized access to sensitive resources
-- Logging: Transform requests using encryption, compression, etc.
-- Caching: Cache frequently used pages, can serve a lot of requests
+  - Looks addresses in its database of allowed or disallowed sites
+  - Filters out content or websites based on different policies
+  - Blocks malicious content and filters out dangerous websites
+  - Prevents unauthorized access to sensitive resources
+- Logging: Transforms requests using encryption, compression, etc.
+- Caching: Caches frequently used pages, can serve a lot of requests
 - Batching
-  - Batch multiple client requests for the same URI
-  - To be processed as one request to the backend server
-- Coordinating requests from multiple servers
-  - And optimize request traffic from a system-wide perspective
+  - Batches multiple client requests for the same URI
+    - To be processed as one request to the backend server
+- Coordinates requests from multiple servers
+  - And optimizes request traffic from a system-wide perspective
 - Collapsed Forwarding
-  - Collapse requests for similar data or data that is spatially close together in storage
+  - Collapses requests for similar data or data that is spatially close together in storage
   - It minimizes the data reads and returns single result
 - Security
-  - Provide network address translation (NAT)
+  - Provides network address translation (NAT)
     - Which makes individual users on the network anonymous
   - Makes it harder for hackers to access individual computers on the network
 - Though it can add latency due to all these extra features
 
-## Forward Proxy
+### Forward Proxy
 - Sits in front of one or more client computers
   - And serves as a conduit between clients and internet
 - Stores and forwards internet services like DNS or web pages
@@ -64,7 +66,7 @@
   - To block a specific website
 - Clients -> Forward Proxy -> Internet -> Web Servers
 
-## Reverse Proxy
+### Reverse Proxy
 - Sits in front of one or more web servers
   - And serves as a conduit between web servers and internet
 - Working

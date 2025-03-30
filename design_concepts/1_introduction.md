@@ -4,13 +4,15 @@
   - Features that need to be included and what will be their inputs & outputs
 - Non-functional Requirements
   - Quality constraints that the system must satisfy
-  - Portability
-  - Security
-  - Maintainability
-  - Reliability
-  - Scalability
-  - Performance
-  - Reusability
-  - Flexibility
+  - Defined conditions under which the system must operate
+  - Constraints
+    - Portability
+    - Security
+    - Maintainability
+    - Reliability
+    - Scalability
+    - Performance
+    - Reusability
+    - Flexibility
 - Extended Requirements
   - Nice to have requirements that are not the core functionalities

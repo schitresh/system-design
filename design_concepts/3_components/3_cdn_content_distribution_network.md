@@ -10,7 +10,7 @@
 ## Factors
 - Content Distribution
   - How the system should distribute web content material globally
-  - Includes techniques for replication, content material synchronization
+  - Includes techniques for replication & synchronization of content material
   - Ensuring that the latest content is updated across all CDN nodes
 - Caching
   - Specifying caching approach for each static and dynamic content material
@@ -25,7 +25,8 @@
   - Situations under which content material should be purged
   - How rapidly the purge must propogate
 - Content Optimization
-  - Techniques for image compression and minification to enhance the rate of content delivery
+  - Techniques for image compression and minification
+    - To enhance the rate of content delivery
   - Techniques to optimize content and delivery for mobile devices
     - Considering responsive design and adaptive content
 
@@ -37,7 +38,7 @@
   - Central repository where original content is stored and managed
   - Serves as the source for content distribution
 - Content Distribution Nodes
-  - Network nodes reponsible for routing and optimizing content delivery within CDN
+  - Network nodes responsible for routing and optimizing content delivery within CDN
   - Ensures efficient traffic management
 - Control Plane
   - Software or services that manage and orchestrate the CDN's operations

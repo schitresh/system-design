@@ -16,7 +16,7 @@
 ## Components
 - API Gateway
   - Central entry point for external clients to interact with the mircoservice
-  - Manges requests, handles authentication, routees requests
+  - Manges requests, handles authentication, routes requests
 - Load Balancer
 - Service Registry and Discovery
   - Keeps track of the locations and network addresses of all microservices
@@ -48,11 +48,11 @@
   - Manages user accounts, authentication, preferences
   - Handles user registration, login, profile management ensuring a personalized experience for users
 - Search Service
-  - Indexes product informationl, provides relevant search results based on user queries
+  - Indexes product information, provides relevant search results based on user queries
   - Enables users to find products quickly
 - Cart Service
   - Manages the shopping cart for users (add, remove, modify items before checkout)
-  - Ensures a seamless shopping experiene by keeping track of selected items
+  - Ensures a seamless shopping experience by keeping track of selected items
 - Wishlist Service
   - Manages user wishlists allowing them to save products for future purchase
   - Let's them track their desired items to purchase later or if not available currently
@@ -66,13 +66,13 @@
   - Securely processes payment transactions and manages payment-related data
   - Integrates with payment gateways
 - Logistics Service
-  - Calculaes shipping costs, assigns carrriers, tracks shipments, managees delivery routes
+  - Calculates shipping costs, assigns carriers, tracks shipments, manages delivery routes
 - Warehouse Service
   - Manages inventory across warehouuses
   - Tracks inventory levels, updates stock availability, coordinates stock replenishment
 - Notification Service
   - Sends notifications to users regarding their orders, promotions
-  - Keeps users about status of their interactions with the platform
+  - Keeps users updated about status of their interactions with the platform
 - Recommendation Service
   - Provides personalized product recommendations to users
   - Analyzes user behavior and preferences to suggest relevant products

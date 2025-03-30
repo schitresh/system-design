@@ -4,11 +4,11 @@
   - Improves availability and reliability
   - Minimizes response time and maximizes throughput
   - Provides horizontal scaling
-- Keeps track and perform health checks regularly
+- Keeps track and performs health checks regularly
   - Stops sending signal to erred server and reduces downtime
 - Sits between client and server
   - And distributes the incoming traffic across multiple servers
-  - Prevents any one server from becoming single point of failure
+  - Prevents any one server from becoming a single point of failure
   - Cluster of LB to avoid the LB being the single point of failure
 - Can be added between
   - Users and Servers

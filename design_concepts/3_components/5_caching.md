@@ -51,7 +51,7 @@
     - Can be solved using global cache, distributed cache
 - Distributed Cache
   - Each node has a part of the whole cache space
-  - Using consistent hashing, each request is rouuted to where the cached request is found
+  - Using consistent hashing, each request is routed to where the cached request is found
 - Global Cache
   - One single cache space is used by all the nodes
   - If a request is not found in the global cache

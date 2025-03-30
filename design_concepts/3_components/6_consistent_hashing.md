@@ -22,12 +22,14 @@
     - Corresponds to the increasing order of location addresses
   - Each request can be served by the server node
     - That appears first while traversing clockwise
+  - Only k/n keys need to be reassigned on adding or removing a node
+    - Where k is total number of keys & n is total number of nodes
 - To map a key to server
   - Hash it to single integer
   - Move clockwise on the ring until the first host is encountered
     - That host contains the key
   - When a host is added, reassign all the predecessor keys on the ring to the new host
-  - When a host is removed, reassign all the successor keys on the ring to next host
+  - When a host is removed, reassign all the predecessor keys on the ring to next host
 - For load balancing, the real data is essentially randomly distributed
   - This may make the keys unbalanced due to non-uniform data
   - To handle this issue and avoid non-uniform data from hash function

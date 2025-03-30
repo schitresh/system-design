@@ -21,7 +21,7 @@
 - Ideal for handling massive scalability needs
   - Unlimited potential to grow
   - Effective for microservices allowing to scale independently
-  - Usefule where responsiveness and speed are critical
+  - Useful where responsiveness and speed are critical
   - Cost effective than vertical scaling in the long run due to flexibility
 
 ### Vertical Scaling
@@ -96,9 +96,9 @@
 - Dividing a complex system into smaller independent modules
   - That can be developed and tested individually and then integrated into the overall system
   - Improves flexibility and reliability of the system
-- Each module is designed to perforrm a specific function and is self-contained
+- Each module is designed to perform a specific function and is self-contained
   - With well defined interfaces to other modules
-- Allows different teeams to work on different modules concurrently
+- Allows different teams to work on different modules concurrently
 - Interfaces
-  - Set of rules or guidelines that define how different commponents of a system interact with each other
+  - Set of rules or guidelines that define how different components of a system interact with each other
   - Specifies inputs, outputs, and behaviors of a component

@@ -3,7 +3,7 @@
 - Only two out of CAP can be guaranteed simultaneously
 - We cannot build a general data store
   - That is continually available
-  - Sequentially considtent
+  - Sequentially consistent
   - And tolerant to any partition failures
 - When designing a distributed system, trading off among CAP is the first thing to consider
 
@@ -30,7 +30,7 @@
     - Updates in one partition might not make it to other partitions
     - Before a client reads from the out-of-date partition
   - The only thing to cope with this possibility
-    - Is to stop serving requests from the out-of-date parition
+    - Is to stop serving requests from the out-of-date partition
     - But then it is no longer 100% available
 - If two servers (S1, S2) cannot communicate (partition)
   - And data is updated in S1, we can do one of these for S2:
@@ -40,7 +40,7 @@
 
 ### CA System
 - Delivers consistency and availability unless there is a partition between any nodes
-- In that case, it sends the last consistent data
+  - In that case, it sends the last consistent data
 - Examples: RDBMS, PostgreSQL
 
 ### CP System
@@ -52,7 +52,7 @@
 
 ### AP System
 - When a partition occurs, all nodes remain available
-- But those at the wrong end of partition might return an older version of data
+  - But those at the wrong end of partition might return an older version of data
 - Application: Social Media
   - Users expect immediate access to their newsfeeds
   - Even if parts of the netwrok are temporarily down

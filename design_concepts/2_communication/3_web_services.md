@@ -14,8 +14,11 @@
 - Application Programming Interface
 - Set of routines, protocols, and tools for building software applications
 - Computing interface that defines interactions between multiple software intermediaries
-- Defines calls/requests that can be made, how to make them, data formats to be used, conventions to follow, etc.
-- Can be entirely custom, specific to a component or based on an industry-standard to ensure interoperability
+- Defines calls/requests that can be made
+  - How to make them, data formats to be used, conventions to follow, etc.
+- Can be entirely custom
+  - Or specific to a component
+  - Or based on an industry-standard to ensure interoperability
 - Through information hiding
   - APIs enable modular programming
   - Allowing users to use the interface independently of the implementation

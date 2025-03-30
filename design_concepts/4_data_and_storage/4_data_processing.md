@@ -7,4 +7,5 @@
     - For analysis, reporting and data synchronization
 
 ## Data processing pipeline
-- Set of processing elements that moves the data from one system to another and transforming the data along the way
+- Set of processing elements that moves the data from one system to another
+  - Transforming the data along the way

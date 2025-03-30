@@ -1,11 +1,12 @@
 ## Quality Assurance
-- Multi testing strategy
+- Multi-testing strategy
 - Automation and script based testing
 - Measurement and reporting mechanism
 - Formal techical reviews
 
 ## Unit Testing
-- Focuses on individual units (functions, procedures) typically performed or automated by developers
+- Focuses on individual units (functions, procedures)
+  - Typically performed or automated by developers
 - Isolates sections of code and verifies its correctness
 - Helps to fix bugs early in the development cycle and enables to make changes quickly
 - Types
@@ -25,7 +26,7 @@
     - Lower level modules are tested with higher level modules until all the modules are tested
   - Top Down IT
     - Simulates the behavior of the lower level modules that are not yet integrated
-    - Needs many stubs and difficult ot observe outputs
+    - Needs many stubs and difficult to observe outputs
 
 ## Regression Testing
 - Used to ensure that the new changes do not introduce new bugs or breaks functionality
@@ -46,6 +47,6 @@
 - Smoke Testing
   - Initial testing to check that the system is ready and stable for further testing
   - Checks that the system did not catch fire and there is no smoke
-- Alpha Testing: Validation testing withing the organization
+- Alpha Testing: Validation testing within the organization
 - Beta Testing: Testing conducted at customer sites
 - System Testing: Security testing, stress & performance testing, recovery testing
