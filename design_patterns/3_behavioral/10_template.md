@@ -1,20 +1,26 @@
 ## Template
-- Defines the skeleton of an algorithm but lets subclassees override specific steps of the algorithm without changing its structure
+- Defines the skeleton of an algorithm in the superclass
+  - But lets subclassees override specific steps of the algorithm without changing its structure
 
 ## Problem
-- Let's say we're creating a data mining application that analyzes corporate documents
-- Users feed documents in various formats (pdf, doc, csv)
-- It tries to extract meaningful data from these doccuments in a uniform format
-- You observe that the the date miner classes for these formats have a lot of similar code
-  - For example, the code for data processing and analysis is similar
+- Let's say we're creating a data mining application
+  - That analyzes corporate documents
+  - Users feed documents in various formats (pdf, doc, csv)
+  - It tries to extract meaningful data from these documents in a uniform format
+- The first version could only work with doc files
+  - Then we added support for csv, tand then pdf
+  - We observe that the these classes for the formats have a lot of similar code
+    - The code for data processing and analysis is almost identical
 - Also, these different classes introduced conditionals in the client code
-  - If there was a commoon interface, this could have been eliminated
+  - If there was a common interface, this could have been eliminated
 
 ## Solution
-- Break down the algorithms into a series of steps and turn these steps into methods
-- Put a series of calls to thesee methods inside a single template method
-- The steps may either be abstract or haveg some default implementation
-- The subclasses will implement the abstract steps and override some of the optional one sif required
+- Break down the algorithms into a series of steps
+  - Turn these steps into methods
+  - Put a series of calls to these methods inside a single template method
+  - The steps may either be abstract or haveg some default implementation
+- The subclasses will implement the abstract steps
+  - And override some of the optional ones if required
 - We can also provide hooks as optional steps
   - Hooks are placed before or after the crucial steps of an algorithm
   - This provides subclasses with additional extenstion points for an algorithm
@@ -57,6 +63,14 @@ class Sandwich
 
   def put_filling
     put_base_filling
+  end
+
+  # Hooks that subclasses may override but they are not mandatory
+  # Hooks have the default implementation as empty
+  def before_vegetable_hook
+  end
+
+  def after_filling_hook
   end
 end
 

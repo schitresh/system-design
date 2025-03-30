@@ -1,5 +1,7 @@
 ## Strategy
-- Define a family of algorithms, put each of them into a separate class, and make their objects interchangeable
+- Defines a family of algorithms
+  - Puts each of them into a separate class
+  - Makes their objects interchangeable
 
 ## Problem
 - Let's say we are creating a navigation app for casual travelers
@@ -8,10 +10,12 @@
   - A user can enter an address and see the fastest route to the destination on the map
   - In the first version, we could only build the driving routes over roads
   - Later, we also added walking routes and public transport routes
-- We also have plans to add routes for cyclists, and routes through all of a city's tourist attractions
-- But this resulted in techinal difficulties
-  - Each time a new routing algorithm was added, the main class of the navigator doubled in size
-  - Any change, even a simple bug fix, to a algorithm affected the whole class
+- We also have plans to add routes for cyclists
+  - And routes through all of a city's tourist attractions
+- But there are many technical difficulties
+  - Each time a new routing algorithm is added, the main class of the navigator doubles in size
+  - Any change to one of the algorithm affects the whole class
+    - Even a simple bug fix or a slight adjustment to street score
 
 ## Solution
 - Take a class that does something specific in a lot of different ways
@@ -21,8 +25,16 @@
 - The context isn't responsible for selecting an appropriate algorithm
   - The client passes the desired strategy to the context
   - The context works with all the strategies through a generic interface
-  - The interface exposes only a single method to trigger the algorithm encapsulated in the selected strategy
-- This makes thee context and strategies independent of each other
+  - The interface exposes only a single method to trigger the algorithm
+    - Encapsulated within the selected strategy
+- This makes the context and the strategies independent of each other
+  - Can add new algorithms or modify existing ones without changing the context or other strategies
+- In the navigation app, each routing algorithm can be extracted to its own class
+  - Which will return a collection of the route’s checkpoints
+  - The main navigator can switch the active routing strategy
+- This may look similar to the State pattern
+  - But in this state pattern, states are aware of each other and initiate transitions
+  - While in strategy pattern, strategies almost never know about each other
 
 ## Example
 ```rb
@@ -61,14 +73,17 @@ class CreditCard < Payment
   end
 end
 
-# Client
-def pay
+# Client Code
+def pay(mode)
   cash = Cash.new
   credit_card = CreditCard.new
 
   payment_system = PaymentSystem.new(100, credit_card)
-  payment_system.pay # Let's say it failed
-  payment_system.payment_mode = cash # User changes the mode after credit card failed
+  payment_system.pay
+  return if payment_system.paid?
+
+  # Let's say the above pay failed, client changes the mode to cach
+  payment_system.payment_mode = cash
   payment_system.pay
 end
 ```

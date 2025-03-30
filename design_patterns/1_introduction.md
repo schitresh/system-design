@@ -34,8 +34,7 @@
 - Command: Encapsulate a command request as an object
 - Interpreter: Include language elements in a program
 - Iterator: Traverse elements of a collection without exposing its underlying representation
-- Mediator
-  - Restrict direct communication and reduce chaotic dependencies between the objects
+- Mediator: Restrict direct communication and reduce chaotic dependencies between the objects
     - Via a mediator object
 - Memento: Capture and restore the previous internal state of objects
 - Observer: Subscription to notify objects about events of the object under observation
