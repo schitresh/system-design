@@ -6,7 +6,7 @@
 - Be prepared for 'why' questions on using specific technologies
   - Interviewer may ask for more details and justifications
   - Discuss trade-offs and alternatives
-- Don't go into detail prematurely since there is strict timeframe
+- Don't go into details prematurely since there is strict timeframe
   - Wait for interviewer's feedback or response on what needs to be discussed
 - Requirements may change during the interview to test your flexibility
   - Don't try to fit the requirements somehow in a set architecture
@@ -17,7 +17,7 @@
 - System design interviews are by nature vague or abstract
   - System design is open-ended and there is limited time in the interview
   - Ask questions about the exact scope of the problem and parts to focus on
-  - Clarify functional requirements and ambiguties early in the interview
+  - Clarify functional requirements and ambiguities early in the interview
 - Functional Requirements
   - Basic functionalities that the end user specifically demands
   - Need to be necessarily incorporated into the system as part of the contract

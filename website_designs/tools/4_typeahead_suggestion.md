@@ -206,7 +206,7 @@
   - But if the user has typed 'AAA', we need to query only server 1
   - We can have a load balancer in front of the trie server
     - Which can store this mapping and redirect traffic
-- If we're querying from multiple server
+- If we're querying from multiple servers
   - We need to merge the results at the server side to aggregate results
     - This will require another layer of servers between load balancers & trie servers
     - To aggregate the results and return the top results to the client
@@ -219,7 +219,7 @@
 - Small percentage of queries will be responsible for the most traffic
 - We can have separate cache servers in front of the trie servers
   - Holding most frequently searched terms and their typeahead suggestions
-- We can aslo build a simple machine learning model
+- We can also build a simple machine learning model
   - To predict the engagement on each suggestion
   - Based on simple counting, personalization, trending data, etc.
 - Use CDNs to cache geographically searched terms that are used frequently

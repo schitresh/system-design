@@ -57,7 +57,7 @@
 
 ## Database
 - Constraints
-  - We need to store billions of records (15 tb)
+  - We need to store billions of records (15 TB)
   - Each object is small (500 bytes)
   - Read-heavy (20K requests/s)
   - No relationship between records
@@ -94,7 +94,7 @@
   - Append an increasing sequence number to each URL to make it unique
     - And then generate the hash
     - Will the sequence number overflow since it will keep increasing?
-    - Will appending the number impact the performance
+    - Will appending the number impact the performance?
   - Append user_id to the URL
     - If the user is not logged in, we would need to ask the user for a unique key
     - If we have a conflict after this, we have to keep generating until a unique key
@@ -123,7 +123,7 @@
 ### Common Considerations
 - Storage
   - With base64 encoding, 69 B unique 6 letter keys can be generated
-  - Let's one byte is required to store one char, so one key will take 6 bytes
+  - Since one byte is required to store one char, so one key will take 6 bytes
   - Storage: 69 B * 6 bytes = 414 GB
 - KGS is single point of failure
   - Can be solved by keeping standby replica of KGS
@@ -203,7 +203,7 @@
 - Metrics
   - How many times a short link has been used
   - Location of the users that accessed it
-  - Date & time of the access, At what time of day it has highest traffic?
+  - Date & time of the access, at what time of day it has highest traffic?
   - From which web page it was referred
   - Browser or platform where it was accessed
 - How to store this info?

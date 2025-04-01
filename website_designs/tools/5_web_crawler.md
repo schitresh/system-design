@@ -51,7 +51,7 @@
   - How big will the url database become?
   - Let's assume we need to crawl 1 B websites
   - A website can contain many other urls
-  - Let's assume an upper bound 15 B differeent web pages that will be reached
+  - Let's assume an upper bound 15 B different web pages that will be reached
 - Robots Exclusion Protocol
   - Allows webmasters to declare parts of their sites off limits to crawlers
   - Requires a web crawler to fetch robot.txt containing these declarations
@@ -168,7 +168,7 @@
   - Using the appropriate network protocol like HTTP
 - Web masters create robot.txt
   - To make certain parts of their websites off limits for crawler
-- To avoid downloading robot.tx file on every request
+- To avoid downloading robot.txt file on every request
   - The HTTP protocol module can maintain a fixed-sized cache
   - Mapping hostnames to their robot’s exclusion rules
 
@@ -188,7 +188,7 @@
   - The worker then passes the DIS to all relevant processing modules
 
 ## Document Dedupe Test
-- Many documents on the web are be available
+- Many documents on the web are available
   - Under multiple different URLs or mirrored on various servers
 - To avoid downloading duplicate documents, we can perform a dedupe test
   - Calculate a 64-bit checksum (using MD5 or SHA) of every processed document
@@ -266,7 +266,7 @@
   - Each host will store its set of URLs
     - That needs to be visited
     - Checksums of previously visited URLs
-    - Checksumms of all the downloaded documents
+    - Checksums of all the downloaded documents
 - Since we are using consistent hashing, URLs will be redistributed from overloaded hosts
 - Each host will perform checkpointing periodically
   - And dump a snapshot of all the data onto a remote server
