@@ -1,7 +1,7 @@
 # Ticketmaster
 - Platforms: ticketmaster, bookmyshow
 - Online ticketing system to sell movie tickets
-- Customers can browse through moviews currently being played
+- Customers can browse through movies currently being played
   - And book seats anywhere anytime
 
 ## Requirements
@@ -16,7 +16,7 @@
     - Put a hold on the seats for 5 mins before finalizing and making payment
   - User should be able to wait if there is a chance that the seats might become available
     - For example, when the holds by other users expire
-    - Waiting customers should be server in a fair, first come, first server manner
+    - Waiting customers should be served in a fair, first come, first serve manner
 - Non-Functional Requirements
   - Highly concurrent
     - There will be multiple booking requests for the same seat at the same time
@@ -127,7 +127,7 @@
 ### Waiting User Service
 - Just like Active Reservation Service
   - We can keep all the waiting users of a show in memory in a Linked Hash Map
-    - { show_id: linked_hash_map { user_id, wait_start_time }
+    - { show_id: linked_hash_map { user_id, wait_start_time } }
   - And the head of the map will point to the longest waiting user (FCFS)
   - When a user cancels request, we can jump and remove it from the map
 - Clients can use long polling for keeping themselves updated about the reservation status
@@ -137,7 +137,7 @@
 - No two users should be able to book the same seat
 - We can use transactions in the SQL database to avoid any clashes
 - E.g. Use Transaction Isolation Levels to lock the rows before updating
-  ```
+  ```sql
   SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
   BEGIN TRANSACTION;
   select * from show_seats

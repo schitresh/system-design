@@ -24,7 +24,7 @@
   - Should be able to generate any user's newsfeed in real time
     - With maximum latency of 2s as seen by end user
   - A post shouldn't take more than 5s to make it to a user's feed
-    - Assuming a new newsfeed required comes in
+    - Assuming a new newsfeed request comes in
 
 ## Estimation
 - Assume on average a user has 300 friends and follows 200 pages
@@ -129,7 +129,7 @@
 - Keeps all the recent feed data in memory
 - Users can pull the data from the server regularly or when required
 - Issues
-  - New data might not be in feed until tge user issues a pull request
+  - New data might not be in feed until the user issues a pull request
   - Hard to find the right pull cadence
   - Most requests will return empty response (causing wastage of resources)
 

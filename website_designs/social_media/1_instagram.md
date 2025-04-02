@@ -19,13 +19,13 @@
   - System should be highly available
   - Acceptable latency for the feed generation is 200 ms
   - Consistency over Availability: If a user doesn't see a photo for a while, it's fine
-  - Highly Reliable: Any uploaded photo shouldn't never be lost
+  - Highly Reliable: Any uploaded photo should never be lost
 - Extended Requirements
   - Adding tags to photos
   - Searching photos on tags
-  - Commenting on phtos
+  - Commenting on photos
   - Tagging users to photos
-  - Follow suggestions
+  - Show follow suggestions
 
 ## Considerations
 - The system would be read heavy
@@ -46,7 +46,7 @@
   - Photos Upload: 2 M/day = 23/s
   - Photos Read: 200 M/day = 2300/s
 - Storage
-  - Average photo Size: 200 KB
+  - Average Photo Size: 200 KB
   - Daily Storage: 2 M photos/day * 200 KB = 400 GB
   - Storage required for 10 years: 400 GB * 365 days * 10 years = 1425 TB
 - Bandwidth
@@ -107,7 +107,7 @@
 ## Showing Feed
 - What are the different approaches to send the feed contents to the users
 - Clients can pull the feed from the server
-  - On a regular basis of manually whenever they need it
+  - On a regular basis manually whenever they need it
   - Though new data might not be shown until clients issue a pull request
   - If there is no new data, the pull requests might result in an empty response
 - Servers can push the feed to the users
@@ -124,7 +124,7 @@
 # Scalability
 ## Reliability and Redundancy
 - Losing files is not an option for our service
-  - So store multiple copeis of each file
+  - So store multiple copies of each file
 - High availability is required
   - So have multiple replicas of services running in the system
   - This will also remove single point of failures
@@ -173,7 +173,7 @@
 - Whenever a particular database server has accumulated a lot of data
   - We can migrate some logical partitions from it to another server
   - Maintain a config file (or separate database) to map logical partitions to db servers
-  - This will enable use to move partitions easily
+  - This will enable us to move partitions easily
 
 ### Feed Generation with Sharded Data
 - To fetch latest photos, we need to sort them by their time of creation
@@ -188,14 +188,14 @@
     - And we store the number of seconds for next 50 years
     - 86400 s/day * 365 days/year * 50 years = 1.6 billion seconds
     - We would need 31 bits to store this number
-  - We are expecting 23 new photos per day
+  - We are expecting 23 new photos per second
     - We can allocate 9 bits for auto-incrementing sequence
     - So every second we can store: 2^9 = 512 new photos
     - We can reset auto incrementing sequence every second
 
 ## Cache
 - Our service would need a massive scale photo delivery system
-  - To server globally distributed users
+  - To serve globally distributed users
   - So the content should be pushed closer to the user
   - This can be done using
     - Large number of geographically distributed photo cache server

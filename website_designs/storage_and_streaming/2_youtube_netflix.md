@@ -30,16 +30,16 @@
   - Assume that upload-view ratio is 1 : 200
   - Uploads: 46 K / 200 = 230 videos/s
 - Storage
-    - Assume that every minute, 500 hours of videos are uploaded
-    - Assume that 1 min of video requires 50 MB on average
-      - Since videos need to be stored in multiple formats
-    - Storage required for videos: 1.5 TB/min = 25 GB/s
-      - 500 hours/min * 60 mins/hour * 50 MB/min
-      - This does not include video compression & replication
+  - Assume that every minute, 500 hours of videos are uploaded
+  - Assume that 1 min of video requires 50 MB on average
+    - Since videos need to be stored in multiple formats
+  - Storage required for videos: 1.5 TB/min = 25 GB/s
+    - 500 hours/min * 60 mins/hour * 50 MB/min
+    - This does not include video compression & replication
 - Bandwidth
-    - Assume that each video upload takes a bandwidth of 10MB/min
-    - Incoming: 500 hrs/min * 60 mins/hr * 10 MB/min = 300 GB/min = 5 GB/sec
-    - Outgoing: 1 TB/sec (1:200 ratio)
+  - Assume that each video upload takes a bandwidth of 10MB/min
+  - Incoming: 500 hrs/min * 60 mins/hr * 10 MB/min = 300 GB/min = 5 GB/sec
+  - Outgoing: 1 TB/sec (1:200 ratio)
 
 ## API
 - upload_video
@@ -71,7 +71,7 @@
 ### Thumbnails
 - Thumbnails are small files, say a maximum of 5 KB each
   - Assuming every video will have five thumbnails
-  - We would need a efficient storage system that can server a huge read traffic
+  - We would need a efficient storage system that can serve a huge read traffic
 - Read traffic for thumbnails will be huge compared to videos
   - Users will watch one video at a time
   - But they might look at a page that has 20 thumbnails of other videos
@@ -104,7 +104,7 @@
   - We should suppport resuming from the same point
 - Encoding
   - Store newly uploaded videos on the server
-  - Add a new task to processing queue to endcode the video into multiple formats
+  - Add a new task to processing queue to encode the video into multiple formats
   - Once the encoding is completed, notify the uploader
     - And make the video available for viewing & sharing
 
@@ -128,7 +128,7 @@
 
 ### Inline Deduplication
 - De-duplication makes most sense early when a user is uploading a video
-- As compared to post-processing it to find that the video is duplicate
+  - As compared to post-processing it to find that the video is duplicate
 - Will save resources used to encode, transfer and store the duplicate video
 - When user starts uploading, run video matching algorithm to find duplicates
   - Like block matching, phase correlation
@@ -168,7 +168,7 @@
 
 ## Replication
 - Read traffic: Secondary servers
-- Meta-data: Master-Slave, write ⇒ master, read ⇒ slave
+- Meta-data: Master-Slave, write -> master, read -> slave
 - Multiple copies of each video
 
 ## Caching
@@ -176,7 +176,7 @@
 - The service should push its content closer to the user
   - Using a large number of geographically distributed video cache servers
 - We need a strategy to maximize user performance
-  - And evenly distribute load the load on cache servers
+  - And evenly distribute the load on cache servers
 - We can go with the 80-20 principle
   - Cache 20% of daily read volume that will generate by 80% traffic
   - We can change this strategy after getting more data
@@ -206,12 +206,12 @@
   - We can use dynamic HTTP redirections for this scenario
 - Drawbacks of redirections
   - Since the service tries to load balance locally
-    - It leads to multiple redirections if the receiver host can't server the video
+    - It leads to multiple redirections if the receiver host can't serve the video
   - Each redirection requires a client to make an additional HTTP request
     - It leads to higher delays before the video starts playing back
   - Inter-tier (or cross-data-center) redirections
     - Lead a client to distant cache location
-    - because thi higher tier caches are only present at small number of locations
+    - Because the higher tier caches are only present at small number of locations
 
 ## Fault tolerance
 - Use consistent hashing for distributing load among database servers

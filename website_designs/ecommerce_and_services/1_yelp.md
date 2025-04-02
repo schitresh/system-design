@@ -42,7 +42,7 @@
 - To build a service where objects do change their location frequently
   - Like people, taxis, etc.
   - The design will be very different
-- Let's see the different ways to store this data and find the best su8ited method
+- Let's see the different ways to store this data and find the best suited method
 
 ## SQL Solution
 - Store all the data in a database like MySQL
@@ -68,7 +68,7 @@
   - And query the places within these grids to get nearby places
 - Grid Size
   - Can be equal to the distance that we want to query
-  - It will limit the search to the grid with the location L and the 8 neighboring grids
+  - It will limit the search to the grid with the location L and the eight neighboring grids
   - Since the grids are statically defined (from the fixed grid size)
     - Finding the grid number of any location would be easy
 
@@ -116,7 +116,7 @@
 - Only leaf nodes will contain a list of places
   - We can connect all the leaf nodes through a doubly linked list
   - This way we can iterate forward & backward among the neighboring leaf nodes
-  - Till we have enough place or it reaches the maximum radius
+  - Till we have enough places or it reaches the maximum radius
 - Another approach is to keep pointer to parent node in each node
   - This way we can reach the sibling nodes through the parent node
   - We can keep expanding our search for neighboring grids
@@ -155,7 +155,7 @@
 - But we didn't build our system to update data of places frequently
   - Searching a place in the quad tree and updating its popularity
     - Will take a lot of resources and affect search requests & system throughput
-  - Popularity of a place is not expected to reflected within a few hours
+  - Popularity of a place is not expected to be reflected within a few hours
     - We can decide to update it once or twice a day
     - When the load on the system is minimum
 
@@ -223,5 +223,5 @@
 ## Load Balancing
 - Keep at two places
   - Between user and application server
-  - Between application aerver and backend server
+  - Between application server and backend server
 - Modified Round Robin can be used which will also take server load into consideration

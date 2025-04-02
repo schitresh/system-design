@@ -17,7 +17,7 @@
 - Non-Functional Requirements
   - ACID properties should be followed for all file operations
     - Atomicity, Consistency, Isolation, Durability
-- Extended
+- Extended Requirements
   - Support offline editing, the changes should be synced as soon as the device is online
   - Snapshotting data so that user can go back to any version of a file
 
@@ -25,7 +25,7 @@
 - We should expect huge read & write volumes
 - Read-write ratio is expected to be nearly the same
 - Internally, files can be stored in small parts or chunks (say 4 MB)
-  - If a file upload fails, only the failed chunks will require to be re-uploaded
+  - If a file upload fails, only the failed chunks will be required to be re-uploaded
   - Will reduce data exchange by transferring only the updated chunks of files while syncing
   - For small changes, clients can intelligently upload diffs instead of the whole chunk
 - Keeping a local copy of metadata (file name, size, etc) with client
@@ -57,7 +57,7 @@
 # Component Design
 ## Client
 - A client application will monitor and sync data in the workspace folder with the cloud
-- It will work with storage servers to upload, dowload & modify files
+- It will work with storage servers to upload, download & modify files
 - It will interact with synchronization service to handle any metadata updates
   - Like change in file name, size, modified date, etc.
 - It will also handle conflicts due to offline or concurrent updates
@@ -74,7 +74,7 @@
     - And input/output operations per second (IOPS)
   - Network bandwidth
   - Average file size in the storage
-- In the metadata, keep a record of each file the chunks that consitute it
+- In the metadata, keep a record of each file & the chunks that constitute it
   - Keep a copy of metadata with the client
   - It will enable us to do offline updates
   - And save a lot of round trips to update remote metadata
@@ -91,7 +91,7 @@
 - Polling
   - Clients can periodically check with the server for changes
   - But since this is periodic, there can be delay in reflecting changes locally
-  - If the client checks frequently, it will be waste both client & server bandwidth
+  - If the client checks frequently, it will waste bandwidth for both client & server
     - Server will have to keep serving these requests and return empty response
   - Hence, this is not scalable
 - Long Polling
@@ -122,7 +122,7 @@
   - Will update the internal metadata database about chunks of modified files
   - Once the chunks are successfully submitted/downloaded to the cloud
     - It will communicate with the remote synchronization service
-    - To broadcast changes to other clients and update the rmeote metadata database
+    - To broadcast changes to other clients and update the remote metadata database
 
 ## Metadata Database
 - Responsible for maintaining versioning
@@ -153,7 +153,7 @@
     - It can employ a differencing algorithm
     - Which transmits only the difference between two versions of a file
     - This also decreases bandwidth consumption and cloud data storage for the end user
-  - Furter details have been discussed in 'handling file transfer' above
+  - Further details have been discussed in 'handling file transfer' above
 
 ## Message Queuing Service
 - It should support
@@ -168,7 +168,7 @@
 - It will implement two types of queues in our system
   - Global Request Queue that all the clients will share
     - Client requests to update the metadata db will be sent to this queue first
-    - Synchronization service will take this requests it to update the metadata
+    - Synchronization service will take these requests to update the metadata
   - Response Queues for individual subscribed clients
     - Responsible for delivering the update messages to each client
     - Required since a message will be deleted from the global queue once received by a client
@@ -183,7 +183,7 @@
   - Enables us to use any storage either in cloud or in-house
 
 ## File Processing Workflow
-- Interation when client A updates a file that is shared with client B and C
+- Interaction when client A updates a file that is shared with client B and C
   - Client A uploads chunks to cloud storage
   - Client A updates metadata and commits changes
   - Client A gets confirmation
@@ -205,12 +205,12 @@
 - New chunks are first stored on the storage device
 - Later some process analyzes the data looking for duplication
 - Benefits
-  - Clients will not need to wait
-  - For the hash calculation or lookup to complete before storing the data
+  - Clients will not need to wait for the hash calculation
+    - Or lookup to complete before storing the data
   - Ensuring that there is no degradation in storage performance
 - Drawbacks
   - Unnecessarily storing duplicate data, though for a short time
-  - Duplicate data will be transferred consuming bandwidth
+  - Duplicate data will be transferred, consuming bandwidth
 
 ### In-line deduplication
 - Deduplication hash calculations can be done in real-time

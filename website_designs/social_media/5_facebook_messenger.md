@@ -51,7 +51,7 @@
 
 ## Message Handling
 - To send messages to another user
-  - A user needs to connect to the server and post messages for that users
+  - A user needs to connect to the server and post messages for that user
 - To get messages from the server
   - The user has two options: pull model & push model
 - Traffic
@@ -66,7 +66,7 @@
 - User can periodically ask server if any new messages
   - Server needs to keep track of messages that are still waiting to be delivered
     - Server will return all these pending messages once the user connects to the server
-- To minimize latency the user will have to check the server frequently
+- To minimize latency, the user will have to check the server frequently
   - And most of the time they will get an empty response
   - This will waste a lot of resources
   - So this does not look like an efficient solution
@@ -156,7 +156,7 @@
   - Whenever any new friend comes online
     - The server can broadcast its status with a delay of few seconds
     - Keep this buffer time in case the friend goes offline immediately
-  - For the friends that are being show on the user's viewport
+  - For the friends that are being showed on the user's viewport
     - Client can pull their status at regular non-frequent intervals
     - Stale status is alright for a while, new user will anyway broadcast their status
   - When the client starts a new chat with another user, pull the status at that time

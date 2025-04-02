@@ -23,7 +23,7 @@
   - Trending topics & searches
   - Tagging other users
   - Push notifications
-  - Follow suggestions
+  - Show follow suggestions
   - Moments (Snapshot of top news, tweets & topic)
 
 ## Estimation
@@ -102,7 +102,7 @@
 
 ### Based on Tweet Creation Time
 - We will have to query only a small set of servers to fetch the top tweets
-- Issue: Traffic load won't be distrubuted
+- Issue: Traffic load won't be distributed
   - All the new tweets will be written to and read from one server
   - The recent server will have very high load while other servers will be sitting idle
 
@@ -118,7 +118,7 @@
   - But the reads & writes will be substantially quicker
   - Since we don't have any secondary index (on creation time)
     - This will reduce the write latency
-  - While reding, we don't need to filter on creation time
+  - While reading, we don't need to filter on creation time
     - As the primary key has epoch time included in it
 
 #### Generating Tweet Id

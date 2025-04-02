@@ -69,7 +69,7 @@
   - We will need 152 servers
 
 ## Sharding
-### Based on tweet id
+### Based on Tweet Id
 - We will have to query all the servers and aggregate the results
 
 ### Based on Words

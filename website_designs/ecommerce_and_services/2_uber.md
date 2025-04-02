@@ -7,7 +7,7 @@
 
 ## Requirements
 - Functional Requirements
-  - Customers can requests a ride
+  - Customers can request a ride
   - Nearby drivers are notified about this request
     - Which they can accept or decline
   - Once a driver accepts
@@ -93,7 +93,7 @@
 - Notify respective quad tree server to refresh driver's location every 15 seconds
 
 ### Storage
-- We need to store the driver Id (3 bytes) and customer Ids (8 bytes)
+- We need to store the driver id (3 bytes) and customer ids (8 bytes)
 - Assume that five customers subscribe to one driver
 - Storage requied: 500 K * 3 + 500 K * 5 * 8 = 21 MB
   - 500 K daily active drivers * 3 bytes for driver id
@@ -112,14 +112,14 @@
   - Clients can send their current location
   - And the server will find all the nearby drivers from the quad tree
   - Upon getting the driver list, the client can update their current location
-  - Clients can query every five seconds to limit the number of round trips to seerver
+  - Clients can query every five seconds to limit the number of round trips to server
   - This is simpler than the push model
 
 ## Repartioning Grid
 - Do we need to repartition the grid as soon as it reaches the maximum limit
 - We can have a buffer to let each grid grow a little bigger beyond the limit
   - Before we decide to partition it
-- Let's say the grids can grow/shrink an extra 10% before partitioning/merginging
+- Let's say the grids can grow/shrink an extra 10% before partitioning/merging
   - This will reduce the load for a grid partition/merge on high traffic grids
   - And will account for dynamic movement
 
