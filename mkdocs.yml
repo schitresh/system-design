@@ -1,0 +1,36 @@
+site_name: System Design
+repo_name: schitresh/system-design
+repo_url: https://github.com/schitresh/system-design
+plugins:
+  - search
+  - awesome-pages
+  - gen_nav:
+      enabled: true
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.indexes
+    - navigation.path
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+extra:
+  generator: false
+markdown_extensions:
+  - pymdownx.tabbed
+  - pymdownx.superfences
