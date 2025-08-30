@@ -1,6 +1,6 @@
 # System Design
 
-View [System Design](https://github.com/schitresh/system-design) for notes on:
+View [System Design](https://schitresh.github.io/system-design) for notes on:
 - Design Concepts
 - Design Patterns
 - Website Designs
