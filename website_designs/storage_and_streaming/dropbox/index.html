@@ -1,0 +1,3502 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../social_media/facebook_messenger">
+      
+      
+        <link rel="next" href="../youtube_netflix">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Dropbox - System Design</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dropbox" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="System Design" class="md-header__button md-logo" aria-label="System Design" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            System Design
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Dropbox
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/schitresh/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    schitresh/system-design
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../design_concepts/introduction" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Design Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../design_patterns/introduction" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Design Patterns
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../introduction" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Website Designs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="System Design" class="md-nav__button md-logo" aria-label="System Design" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    System Design
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/schitresh/system-design" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    schitresh/system-design
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../design_concepts" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Design Concepts
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Design Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/introduction" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/architecture/types_of_architecture" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types Of Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/architecture/microservices" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Microservices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/architecture/factors_to_consider" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factors To Consider
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/architecture/consistency" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistency
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/architecture/efficiency" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Efficiency
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/architecture/cap_theorem" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cap Theorem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Communication
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Communication
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/communication/network_protocols" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/communication/communication_protocols" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Communication Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/communication/web_services" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/communication/messaging_queues" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Messaging Queues
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/communication/authentication_and_authorization" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Authentication And Authorization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Components
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Components
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/components/components" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Components
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/components/servers" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Servers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/components/cdn_content_distribution_network" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cdn Content Distribution Network
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/components/load_balancing" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Load Balancing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/components/caching" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Caching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/components/consistent_hashing" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Consistent Hashing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Data And Storage
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Data And Storage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/data_and_storage/databases" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Databases
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/data_and_storage/replication" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Replication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/data_and_storage/sharding" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sharding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/data_and_storage/data_processing" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Processing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Others
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            Others
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/others/devops" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Devops
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/others/testing" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_concepts/others/dsa_for_system_design" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dsa For System Design
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../design_patterns" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Design Patterns
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Design Patterns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/introduction" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/solid_principles" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solid Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Creational
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Creational
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/creational/factory" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/creational/abstract_factory" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Abstract Factory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/creational/builder" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Builder
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/creational/prototype" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prototype
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/creational/singleton" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Singleton
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Structural
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Structural
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/structural/adapter" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Adapter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/structural/bridge" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bridge
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/structural/composite" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Composite
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/structural/decorator" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Decorator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/structural/facade" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Facade
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/structural/flyweight" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Flyweight
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/structural/proxy" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Proxy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Behavioral
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Behavioral
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/chain_of_responsibility" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chain Of Responsibility
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/command" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Command
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/interpreter" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Interpreter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/iterator" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/mediator" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mediator
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/memento" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Memento
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/observer" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Observer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/state" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    State
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/strategy" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Strategy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/template" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Template
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../design_patterns/behavioral/visitor" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Visitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Website Designs
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Website Designs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../introduction" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ecommerce And Services
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Ecommerce And Services
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ecommerce_and_services/yelp" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Yelp
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ecommerce_and_services/uber" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uber
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ecommerce_and_services/ticket_master" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ticket Master
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Social Media
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Social Media
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../social_media/instagram" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Instagram
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../social_media/twitter" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Twitter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../social_media/twitter_search" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Twitter Search
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../social_media/facebook_newsfeed" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Facebook Newsfeed
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../social_media/facebook_messenger" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Facebook Messenger
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Storage And Streaming
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Storage And Streaming
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Dropbox
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dropbox
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Servers
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../youtube_netflix" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Youtube Netflix
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/url_shortening" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Url Shortening
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/pastebin" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pastebin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/api_rate_limiter" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Api Rate Limiter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/typeahead_suggestion" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Typeahead Suggestion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/web_crawler" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Crawler
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estimation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-servers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Servers
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="dropbox">Dropbox</h1>
+<ul>
+<li>Platforms: dropbox, google drive, one drive</li>
+<li>File hosting service (or cloud file storage)</li>
+<li>Enables users to store their data on remote servers</li>
+<li>Simplifies the storage and exchange of digital resources<ul>
+<li>Users can access data across multiple devices with different platforms &amp; OS</li>
+<li>Gives portable access from various geographical locations at any time</li>
+<li>Offers 100% reliability and durability of data by keeping multiple copies of data</li>
+<li>Unlimited storage space, though after certain limit it needs to be paid for</li>
+</ul>
+</li>
+</ul>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>Functional Requirements<ul>
+<li>Users can upload &amp; download their files from any device</li>
+<li>Files or folders can be shared with other users</li>
+<li>Files &amp; folders should be automatically synced among devices</li>
+<li>Should support storing large files up to a GB</li>
+</ul>
+</li>
+<li>Non-Functional Requirements<ul>
+<li>ACID properties should be followed for all file operations<ul>
+<li>Atomicity, Consistency, Isolation, Durability</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Extended Requirements<ul>
+<li>Support offline editing, the changes should be synced as soon as the device is online</li>
+<li>Snapshotting data so that user can go back to any version of a file</li>
+</ul>
+</li>
+</ul>
+<h2 id="considerations">Considerations</h2>
+<ul>
+<li>We should expect huge read &amp; write volumes</li>
+<li>Read-write ratio is expected to be nearly the same</li>
+<li>Internally, files can be stored in small parts or chunks (say 4 MB)<ul>
+<li>If a file upload fails, only the failed chunks will be required to be re-uploaded</li>
+<li>Will reduce data exchange by transferring only the updated chunks of files while syncing</li>
+<li>For small changes, clients can intelligently upload diffs instead of the whole chunk</li>
+</ul>
+</li>
+<li>Keeping a local copy of metadata (file name, size, etc) with client<ul>
+<li>Can save a lot of round trips to the server</li>
+</ul>
+</li>
+</ul>
+<h2 id="estimation">Estimation</h2>
+<ul>
+<li>Traffic<ul>
+<li>Total users: 500 M</li>
+<li>Daily active users: 100 M</li>
+<li>Active connections: 1 M/min</li>
+<li>Devices per user: 3</li>
+</ul>
+</li>
+<li>Storage<ul>
+<li>Average number of files per user: 200</li>
+<li>Average file size: 100 KB</li>
+<li>Total files: 500 M users * 200 files/user = 100 B</li>
+<li>Storage required: 100 B files * 100 KB/file = 10 PB</li>
+</ul>
+</li>
+</ul>
+<h2 id="application-servers">Application Servers</h2>
+<ul>
+<li>User will specify a folder to be used as workspace on their device<ul>
+<li>Data placed in this workspace will be synced with the cloud</li>
+<li>Any modifications &amp; deletions will be reflected to other devices</li>
+<li>So we need some servers that can help clients to upload &amp; download files to cloud</li>
+</ul>
+</li>
+<li>We need to store files and their metadata (filename, size, directory, etc.)<ul>
+<li>And who this file is shared with</li>
+<li>Some servers that can facilitate updating metadata</li>
+</ul>
+</li>
+<li>We also need some mechanismm to notify all clients whenever an update happens<ul>
+<li>So that they can synchronize their files</li>
+</ul>
+</li>
+</ul>
+<h1 id="component-design">Component Design</h1>
+<h2 id="client">Client</h2>
+<ul>
+<li>A client application will monitor and sync data in the workspace folder with the cloud</li>
+<li>It will work with storage servers to upload, download &amp; modify files</li>
+<li>It will interact with synchronization service to handle any metadata updates<ul>
+<li>Like change in file name, size, modified date, etc.</li>
+</ul>
+</li>
+<li>It will also handle conflicts due to offline or concurrent updates</li>
+</ul>
+<h3 id="handling-file-transfer">Handling File Transfer</h3>
+<ul>
+<li>We can break each file into smaller chunks (say 4 MB)<ul>
+<li>So that only the modified chunks need to be transferred and not the whole file</li>
+<li>Server and clients can calculate a hash (e.g., SHA-256)<ul>
+<li>If we already have a chunk with a similar hash (even from another user)</li>
+<li>We don’t need to create another copy, we can use the same chunk</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>We can calculate an optimal chunk size based on<ul>
+<li>Type of storage devices used in the cloud<ul>
+<li>To optimize space utilization</li>
+<li>And input/output operations per second (IOPS)</li>
+</ul>
+</li>
+<li>Network bandwidth</li>
+<li>Average file size in the storage</li>
+</ul>
+</li>
+<li>In the metadata, keep a record of each file &amp; the chunks that constitute it<ul>
+<li>Keep a copy of metadata with the client</li>
+<li>It will enable us to do offline updates</li>
+<li>And save a lot of round trips to update remote metadata</li>
+</ul>
+</li>
+</ul>
+<h3 id="syncing-changes">Syncing Changes</h3>
+<ul>
+<li>Handling slow servers<ul>
+<li>Clients should exponentially back off if the server is busy or not responding</li>
+<li>If the server is too slow, clients should delay their retries<ul>
+<li>And this delay should increase exponentially</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>For web clients, check for file changes regularly</li>
+<li>For mobile clients, sync on demand to save user's bandwidth and space</li>
+</ul>
+<h3 id="listen-changes-on-other-clients">Listen Changes on Other Clients</h3>
+<ul>
+<li>Polling<ul>
+<li>Clients can periodically check with the server for changes</li>
+<li>But since this is periodic, there can be delay in reflecting changes locally</li>
+<li>If the client checks frequently, it will waste bandwidth for both client &amp; server<ul>
+<li>Server will have to keep serving these requests and return empty response</li>
+</ul>
+</li>
+<li>Hence, this is not scalable</li>
+</ul>
+</li>
+<li>Long Polling<ul>
+<li>Clients can request info from server<ul>
+<li>With the expectation that server may respond immediately</li>
+</ul>
+</li>
+<li>If the server has no new data for the client<ul>
+<li>It will hold the request open &amp; wait for new data instead of sending empty response</li>
+<li>Once the server has some new info, it will send the response to the client</li>
+</ul>
+</li>
+<li>After receiving the response<ul>
+<li>Client can immediately issue another request for future updates</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="components">Components</h3>
+<ul>
+<li>Based on the above considerations, we can divide the client into four parts</li>
+<li>Interal Metadata Database<ul>
+<li>Will keep track of all the files, chunks, their versions, their locations</li>
+</ul>
+</li>
+<li>Chunker<ul>
+<li>Will split the files into chunks</li>
+<li>Will reconstruct a file from its chunks</li>
+<li>Will detect the chunks that have been modified and transfer those to cloud</li>
+</ul>
+</li>
+<li>Watcher<ul>
+<li>Will monitor the local workspace folder</li>
+<li>Will notify the indexer about any actions performed by users<ul>
+<li>E.g. creating, deleting, updating files or folders</li>
+</ul>
+</li>
+<li>Will listen to any changes happening on the other clients<ul>
+<li>That are broadcasted by synchronization service</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Indexer<ul>
+<li>Will process the events received from the watcher</li>
+<li>Will update the internal metadata database about chunks of modified files</li>
+<li>Once the chunks are successfully submitted/downloaded to the cloud<ul>
+<li>It will communicate with the remote synchronization service</li>
+<li>To broadcast changes to other clients and update the remote metadata database</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="metadata-database">Metadata Database</h2>
+<ul>
+<li>Responsible for maintaining versioning<ul>
+<li>And metadata info about files, chunks, users, devices, workspaces</li>
+</ul>
+</li>
+<li>Can be SQL or NoSQL<ul>
+<li>NoSQL data stores don't support ACID in favor of scalability and performance<ul>
+<li>So ACID properties need to be supported in synchronization service programmatically</li>
+</ul>
+</li>
+<li>Relational database can simplify the implementation of the synchronization service<ul>
+<li>Since it natively supports ACID properties</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Regardless of the type of database<ul>
+<li>Synchronization service should be able to provide a consistent view of the files</li>
+<li>Especially if multiple users are working on the same file simultaneously</li>
+</ul>
+</li>
+</ul>
+<h2 id="synchronization-service">Synchronization Service</h2>
+<ul>
+<li>Most important part due to its critical role in managing metadata &amp; synchronizing files<ul>
+<li>It will process and sync file updates made by a client</li>
+<li>It will sync local databases of clients with the info stored in the metadata db</li>
+</ul>
+</li>
+<li>Desktop clients will communicate with synchronization service to<ul>
+<li>Obtain files &amp; updates from the cloud storage</li>
+<li>Send files &amp; updates to the cloud storage, other clients, and other users</li>
+<li>If a client was offline for a long period<ul>
+<li>It can poll the system for new updates as soon as they come online</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>When the synchronization service receives an update request<ul>
+<li>It will check with the metadata db for consistency and then proceed with the update</li>
+<li>A notification will be sent to all subscribed users or devices to report the file update</li>
+</ul>
+</li>
+<li>It should employ file transfer with low response time<ul>
+<li>To reduce the amount of the data that needs to be synchronized<ul>
+<li>It can employ a differencing algorithm</li>
+<li>Which transmits only the difference between two versions of a file</li>
+<li>This also decreases bandwidth consumption and cloud data storage for the end user</li>
+</ul>
+</li>
+<li>Further details have been discussed in 'handling file transfer' above</li>
+</ul>
+</li>
+</ul>
+<h2 id="message-queuing-service">Message Queuing Service</h2>
+<ul>
+<li>It should support<ul>
+<li>Asynchronous message-based communication between clients and synchronization service</li>
+<li>Asynchronous and loosely coupled message-based communication between distributed components</li>
+</ul>
+</li>
+<li>For an efficient and scalable synchronization protocol<ul>
+<li>We can use this message queuing service</li>
+<li>And add a communication/messaging middleware between the clients and the service</li>
+</ul>
+</li>
+<li>Messaging middleware should be able to handle a substantial number of requests<ul>
+<li>It should be able to efficiently store any number of messages</li>
+<li>In a highly available, reliable and scalable queue</li>
+</ul>
+</li>
+<li>It will implement two types of queues in our system<ul>
+<li>Global Request Queue that all the clients will share<ul>
+<li>Client requests to update the metadata db will be sent to this queue first</li>
+<li>Synchronization service will take these requests to update the metadata</li>
+</ul>
+</li>
+<li>Response Queues for individual subscribed clients<ul>
+<li>Responsible for delivering the update messages to each client</li>
+<li>Required since a message will be deleted from the global queue once received by a client</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Multiple instances of synchronization service can be deployed<ul>
+<li>Which will receive requests from a global request queue</li>
+<li>And the middleware will be able to balance their load</li>
+</ul>
+</li>
+</ul>
+<h2 id="cloudblock-storage">Cloud/Block Storage</h2>
+<ul>
+<li>Stores chunks of files uploaded by the users</li>
+<li>Clients directly interact with the storage to send and receive objects</li>
+<li>Separation of the metadata from storage<ul>
+<li>Enables us to use any storage either in cloud or in-house</li>
+</ul>
+</li>
+</ul>
+<h2 id="file-processing-workflow">File Processing Workflow</h2>
+<ul>
+<li>Interaction when client A updates a file that is shared with client B and C<ul>
+<li>Client A uploads chunks to cloud storage</li>
+<li>Client A updates metadata and commits changes</li>
+<li>Client A gets confirmation</li>
+<li>Notifications are sent to Clients B and C about the changes</li>
+<li>Client B and C receive metadata changes and download updated chunks</li>
+</ul>
+</li>
+<li>If they are not online at the time of the update<ul>
+<li>Message queuing service keeps the update notifications</li>
+<li>In their respective queues until they become available later</li>
+</ul>
+</li>
+</ul>
+<h2 id="data-deduplication">Data Deduplication</h2>
+<ul>
+<li>Technique for eliminating duplicate copies of data to improve storage utilization</li>
+<li>Can also be applied to network data transfers to reduce the number of bytes that must be sent</li>
+<li>For each new incoming chunk, calculate a hash<ul>
+<li>Compare that with all the hashes of the existing chunks</li>
+<li>To see if we already have the same chunk present in our storage</li>
+</ul>
+</li>
+<li>Can implement deduplication in two ways in our system</li>
+</ul>
+<h3 id="post-process-deduplication">Post-process deduplication</h3>
+<ul>
+<li>New chunks are first stored on the storage device</li>
+<li>Later some process analyzes the data looking for duplication</li>
+<li>Benefits<ul>
+<li>Clients will not need to wait for the hash calculation<ul>
+<li>Or lookup to complete before storing the data</li>
+</ul>
+</li>
+<li>Ensuring that there is no degradation in storage performance</li>
+</ul>
+</li>
+<li>Drawbacks<ul>
+<li>Unnecessarily storing duplicate data, though for a short time</li>
+<li>Duplicate data will be transferred, consuming bandwidth</li>
+</ul>
+</li>
+</ul>
+<h3 id="in-line-deduplication">In-line deduplication</h3>
+<ul>
+<li>Deduplication hash calculations can be done in real-time<ul>
+<li>As the clients are entering data on their device</li>
+</ul>
+</li>
+<li>If our system identifies a chunk which it has already stored<ul>
+<li>Only a reference to the existing chunk will be added in the metadata</li>
+<li>This approach will give us optimal network and storage usage</li>
+</ul>
+</li>
+</ul>
+<h2 id="permissions">Permissions</h2>
+<ul>
+<li>One of the primary concerns users will have is the privacy and security of their data</li>
+<li>Especially since in our system<ul>
+<li>Users can share their files with other users or even make them public</li>
+</ul>
+</li>
+<li>To handle this, we will be storing permissions of each file in our metadata DB<ul>
+<li>To reflect what files are visible or modifiable by any user</li>
+</ul>
+</li>
+</ul>
+<h1 id="scalability">Scalability</h1>
+<h2 id="metadata-partitioning">Metadata Partitioning</h2>
+<ul>
+<li>To scale out metadata db, we need to partition it<ul>
+<li>So that it can store information about millions of users</li>
+<li>And billions of files/chunks</li>
+</ul>
+</li>
+<li>We need to come up with a partitioning scheme<ul>
+<li>That would divide and store our data to different db servers</li>
+</ul>
+</li>
+</ul>
+<h3 id="vertical-partitioning">Vertical Partitioning</h3>
+<ul>
+<li>Store tables related to one particular feature on one server<ul>
+<li>Store all the user related tables in one database</li>
+<li>Store all files/chunks related tables in another database</li>
+</ul>
+</li>
+<li>Although it is straightforward to implement, it has some issues:<ul>
+<li>Will we still have scale issues?<ul>
+<li>What if we have trillions of chunks to be stored?</li>
+<li>And our database cannot support storing such huge number of records?</li>
+<li>How would we further partition such tables?</li>
+</ul>
+</li>
+<li>Joining two tables in two separate databases can cause performance and consistency issues<ul>
+<li>How frequently do we have to join user and file tables?</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="range-based-partitioning">Range Based Partitioning</h3>
+<ul>
+<li>Store files/chunks in separate partitions based on the first letter of the file path<ul>
+<li>Save all the files starting with letter ‘A’ in one partition</li>
+<li>Those that start with letter ‘B’ into another partition</li>
+</ul>
+</li>
+<li>We can even combine certain less frequently occurring letters into one database partition</li>
+<li>We should come up with this partitioning scheme statically<ul>
+<li>So that we can always store/find a file in a predictable manner</li>
+</ul>
+</li>
+<li>Drawback: Can lead to unbalanced servers<ul>
+<li>If we decide to put all files starting with letter E into a DB partition</li>
+<li>And later we realize that we have too many files that start with letter E</li>
+<li>To such an extent that we cannot fit them into one DB partition</li>
+</ul>
+</li>
+</ul>
+<h3 id="hash-based-partitioning">Hash-Based Partitioning</h3>
+<ul>
+<li>Take a hash of the object and figure out the DB partition<ul>
+<li>Can take the hash of the FileID of the File object</li>
+</ul>
+</li>
+<li>Hashing function will randomly distribute objects into different partitions<ul>
+<li>Example: Map any ID to a number between 1 to 256, and this number would be the partition</li>
+</ul>
+</li>
+<li>Drawbacks<ul>
+<li>Can still lead to overloaded partitions</li>
+<li>Can be solved by using Consistent Hashing</li>
+</ul>
+</li>
+</ul>
+<h2 id="caching">Caching</h2>
+<ul>
+<li>Can have two kinds of caches in our system</li>
+<li>To deal with hot files/chunks, we can have a cache for Block storage<ul>
+<li>Can use Memcache that can store whole chunks with their respective IDs/Hashes</li>
+<li>Before hitting block storage, block servers can quickly check if the cache has desired chunk</li>
+</ul>
+</li>
+<li>Based on clients’ usage pattern we can determine how many cache servers we need<ul>
+<li>A high-end commercial server can have up to 144GB of memory</li>
+<li>So one such server can cache 36K chunks</li>
+</ul>
+</li>
+<li>Which cache replacement policy would best fit our needs?<ul>
+<li>How do we choose to replace a chunk with a newer/hotter chunk?</li>
+<li>Least Recently Used (LRU) can be a reasonable policy</li>
+</ul>
+</li>
+<li>Similarly, we can have a cache for Metadata DB</li>
+</ul>
+<h2 id="load-balancer">Load Balancer</h2>
+<ul>
+<li>We can add load balancing layer at two places<ul>
+<li>Between Clients and Block servers</li>
+<li>Between Clients and Metadata servers</li>
+</ul>
+</li>
+<li>Initially, a simple Round Robin approach can be adopted<ul>
+<li>Distributes incoming requests equally among backend servers</li>
+<li>Simple to implement and does not introduce any overhead</li>
+<li>If a server is dead, LB will take it out of the rotation and stop sending any traffic</li>
+<li>But it won’t take server load into consideration</li>
+<li>If a server is overloaded or slow, LB won't stop sending new requests to it</li>
+<li>To handle this, a more intelligent LB solution can be placed</li>
+<li>That periodically queries backend server about their load and adjusts traffic</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "navigation.indexes", "navigation.path", "navigation.tabs", "navigation.top", "search.highlight", "toc.follow"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
